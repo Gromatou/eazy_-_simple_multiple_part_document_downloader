@@ -1,31 +1,30 @@
 import requests
-debut_url = input ("quel est le debut de l'url a telecharger ?  ")
-fin_url = input ("quel est la fin de l'url ?  ")
-nombre_page = input ("combien de pages ?  ")
-extention = input ("quel est l'extention ?  ")
-page = 0
-headers = {
+print = ("===============================================================================")
+print = ("welcome to the multipart document downloader, the first program of Gromatou")
+print = ("===============================================================================")
+print = ("")
+
+debut_url = input ("beginning of url : ")           #whe ask for alls values
+fin_url = input ("end of url : ")
+nombre_page = input ("number of pages : ")
+extention = input ("file type : ")
+page = 0                                            #whe begin with the first page
+headers = {                                         #whe deffine the headers to send to the website about our user agent
     "User-Agent": "Chrome/51.0.2704.103",
 }
-merger = PdfFileMerger()
-pdfs = ['page 10.pdf']
 
-
-def download_pdf(url_, nom_, headers):
-    # Send GET request
-    response = requests.get(url_, headers=headers)
-    # Save the PDF
-    if response.status_code == 200:
-        with open(nom_, "wb") as f:
-            f.write(response.content)
+def download_file(url_, nom_, headers):             #function to download the file
+    response = requests.get(url_, headers=headers)  #whe ask the website for the file and get it
+    if response.status_code == 200:                 #whe check if the answere is correct
+        with open(nom_, "wb") as f:                 #whe make a file to write the file content in it
+            f.write(response.content)               #whe write the file in it
     else:
-        print(response.status_code)
+        print(response.status_code)                 #whe print some debugs info if it fail
         print(url_)
 
-for i in range(int(nombre_page)) :
-    page += 1
-    url =  debut_url + str(page) + fin_url
-    nom = "page " + str(page) + extention
-    download_pdf(url, nom, headers)
-    pdfs.append(nom)
+for i in range(int(nombre_page)) :                  #the loop of download
+    page += 1                                       #increase the page number
+    url =  debut_url + str(page) + fin_url          #concatenate the url
+    nom = "page " + str(page) + extention           #making the filename
+    download_file(url, nom, headers)                #using our wonderfull download fucntion
 
